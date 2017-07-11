@@ -1,6 +1,10 @@
-package com.hrpc.rpc.spring;
+package com.hrpc.rpc.spring.handler;
 
 import com.google.common.io.CharStreams;
+import com.hrpc.rpc.spring.parser.RpcReferenceBeanParser;
+import com.hrpc.rpc.spring.parser.RpcRegistryBeanParser;
+import com.hrpc.rpc.spring.parser.RpcServiceBeanParser;
+import com.hrpc.rpc.spring.parser.RpcInteceptorBeanParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

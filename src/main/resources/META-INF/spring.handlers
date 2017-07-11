@@ -1,1 +1,1 @@
-http\://www.blackdev.cn/hrpc=com.hrpc.rpc.spring.RpcNamespaceHandler
+http\://www.blackdev.cn/hrpc=com.hrpc.rpc.spring.handler.RpcNamespaceHandler
