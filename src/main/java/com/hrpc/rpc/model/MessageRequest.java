@@ -9,6 +9,6 @@ public class MessageRequest implements Serializable{
     private String messageId;
     private String className;
     private String methodName;
-    private Class<?>[] typeparameters;
+    private Class<?>[] typeParameters;
     private Object[] parametersVal;
 }
