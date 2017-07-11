@@ -31,6 +31,16 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
+    <xsd:element name="server">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="bean:identifiedType">
+                    <xsd:attribute name="port" type="xsd:string" use="required" />
+                    <xsd:attribute name="protocol" type="xsd:string" use="optional" default="hessian" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
     <xsd:element name="interceptor">
         <xsd:complexType>
             <xsd:complexContent>

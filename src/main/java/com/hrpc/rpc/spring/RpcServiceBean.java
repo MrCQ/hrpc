@@ -1,8 +1,8 @@
 package com.hrpc.rpc.spring;
 
-
-import com.hrpc.rpc.netty.MessageRecvExecutor;
 import lombok.Data;
+import com.hrpc.rpc.netty.MessageRecvExecutor;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

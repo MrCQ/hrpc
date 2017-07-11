@@ -1,10 +1,7 @@
 package com.hrpc.rpc.spring.handler;
 
 import com.google.common.io.CharStreams;
-import com.hrpc.rpc.spring.parser.RpcReferenceBeanParser;
-import com.hrpc.rpc.spring.parser.RpcRegistryBeanParser;
-import com.hrpc.rpc.spring.parser.RpcServiceBeanParser;
-import com.hrpc.rpc.spring.parser.RpcInteceptorBeanParser;
+import com.hrpc.rpc.spring.parser.*;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -40,5 +37,6 @@ public class RpcNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("inteceptor", new RpcInteceptorBeanParser());
         registerBeanDefinitionParser("reference", new RpcReferenceBeanParser());
         registerBeanDefinitionParser("registry", new RpcRegistryBeanParser());
+        registerBeanDefinitionParser("server", new RpcServerBeanParser());
     }
 }

@@ -8,6 +8,7 @@ import com.hrpc.rpc.model.MessageResponse;
 import com.hrpc.rpc.parallel.RpcThreadFactory;
 import com.hrpc.rpc.parallel.RpcThreadPool;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
+import com.hrpc.rpc.zookeeper.registry.ZookeeperServiceRegistry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,6 +28,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Data
 public class MessageRecvExecutor {
+    //当前provider的IP和端口
     private String ipAddress;
     private String port;
     private RpcSerializeProtocol serializeProtocol = RpcSerializeProtocol.HESSIANSERIALIZE;
@@ -39,6 +41,8 @@ public class MessageRecvExecutor {
     private Map<String, ServiceInteceptor> inteceptorMap = new ConcurrentHashMap<>();
 
     private static volatile ListeningExecutorService threadPoolExecutor;
+
+    private ZookeeperServiceRegistry zookeeperServiceRegistry;
 
     //创建Netty的线程池
     ThreadFactory threadFactory = new RpcThreadFactory("Netty_Thread_Factory");
@@ -114,5 +118,17 @@ public class MessageRecvExecutor {
     public void stop(){
         this.boss.shutdownGracefully();
         this.worker.shutdownGracefully();
+    }
+
+    public void register2RegistryCenter(String address){
+        if(zookeeperServiceRegistry == null){
+            zookeeperServiceRegistry = new ZookeeperServiceRegistry(address);
+        }
+
+        String providerAddr = ipAddress + ":" + port;
+
+        for(String interfaceName : handlerMap.keySet()){
+            zookeeperServiceRegistry.register(interfaceName + "/" + providerAddr);
+        }
     }
 }
