@@ -1,5 +1,9 @@
 package com.hrpc.rpc.netty.handler;
 
+import com.hrpc.rpc.model.MessageRequest;
+import com.hrpc.rpc.model.MessageResponse;
+import com.hrpc.rpc.netty.MessageRecvExecutor;
+import com.hrpc.rpc.netty.MessageRecvInitializeTask;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -18,6 +22,9 @@ public class MessageRecvHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
+        MessageRequest request = (MessageRequest) msg;
+        MessageResponse response = new MessageResponse();
+        MessageRecvInitializeTask task = new MessageRecvInitializeTask(handlerMap, request, response);
+        MessageRecvExecutor.getInstance().submit(task, ctx, request, response);
     }
 }

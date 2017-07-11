@@ -17,17 +17,18 @@ public class MessageRecvInitializeTask implements Callable<Boolean> {
     private MessageRequest request;
     private MessageResponse response;
 
-    MessageRecvInitializeTask(Map<String, Object> map, MessageRequest request, MessageResponse response){
+    public MessageRecvInitializeTask(Map<String, Object> map, MessageRequest request, MessageResponse response){
         this.handlerMap = map;
         this.request = request;
         this.response = response;
     }
 
     @Override
-    public Boolean call() throws Exception {
+    public Boolean call() {
         response.setMessageId(request.getMessageId());
         try {
-            response.setReult(reflect(request));
+            Object res = reflect(request);
+            response.setResult(res);
             return true;
         } catch(Exception e){
             e.printStackTrace();
@@ -36,7 +37,7 @@ public class MessageRecvInitializeTask implements Callable<Boolean> {
         return false;
     }
 
-    private Object reflect(MessageRequest request) throws Throwable{
+    private Object reflect(MessageRequest request) throws Exception{
         String methodName = request.getMethodName();
         Object bean = handlerMap.get(request.getClassName());
         Object[] params = request.getParametersVal();

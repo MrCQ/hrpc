@@ -16,6 +16,7 @@ public class RpcReferenceBean implements FactoryBean, InitializingBean, Disposab
 
     @Override
     public Object getObject() throws Exception {
+
         return null;
     }
 

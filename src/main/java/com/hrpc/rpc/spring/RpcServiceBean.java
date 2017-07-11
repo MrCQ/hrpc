@@ -17,7 +17,7 @@ public class RpcServiceBean implements ApplicationContextAware, ApplicationListe
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        MessageRecvExecutor.getInstance().register2HandlerMap(interfaceName, applicationContext.getBean(ref));
+        MessageRecvExecutor.getInstance().registeService2HandlerMap(interfaceName, applicationContext.getBean(ref));
     }
 
     @Override

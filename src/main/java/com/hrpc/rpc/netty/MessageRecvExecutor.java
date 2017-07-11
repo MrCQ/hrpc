@@ -2,6 +2,7 @@ package com.hrpc.rpc.netty;
 
 import com.google.common.util.concurrent.*;
 import com.hrpc.rpc.core.RpcSystemConfig;
+import com.hrpc.rpc.interceptor.ServiceInteceptor;
 import com.hrpc.rpc.model.MessageRequest;
 import com.hrpc.rpc.model.MessageResponse;
 import com.hrpc.rpc.parallel.RpcThreadFactory;
@@ -35,6 +36,7 @@ public class MessageRecvExecutor {
     private int queueNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS;
 
     private Map<String, Object> handlerMap = new ConcurrentHashMap<>();
+    private Map<String, ServiceInteceptor> inteceptorMap = new ConcurrentHashMap<>();
 
     private static volatile ListeningExecutorService threadPoolExecutor;
 
@@ -51,8 +53,13 @@ public class MessageRecvExecutor {
         return MessageRecvExecutorHolder.executor;
     }
 
-    public void register2HandlerMap(String key, Object val){
+    //将注册的service添加进来
+    public void registeService2HandlerMap(String key, Object val){
         this.handlerMap.put(key, val);
+    }
+    //将注册的inteceptor添加进来
+    public void registerInteceptor2InteceptorMap(String key, ServiceInteceptor val){
+        this.inteceptorMap.put(key, val);
     }
 
     public void submit(Callable<Boolean> task, final ChannelHandlerContext ctx, final MessageRequest request, final MessageResponse response){
@@ -104,7 +111,7 @@ public class MessageRecvExecutor {
         }
     }
 
-    private void stop(){
+    public void stop(){
         this.boss.shutdownGracefully();
         this.worker.shutdownGracefully();
     }
