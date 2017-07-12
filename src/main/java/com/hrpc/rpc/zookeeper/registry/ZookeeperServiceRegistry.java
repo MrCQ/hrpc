@@ -50,7 +50,12 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
         String path = ZookeeperConstant.ZKROOT + "/" + nodePath;
 
         if(!zkClient.exists(path)){
-            return zkClient.delete(path);
+            if(zkClient.getChildren(path).isEmpty()) {
+                return zkClient.delete(path);
+            }
+            else{
+                return zkClient.deleteRecursive(path);
+            }
         }
 
         return false;

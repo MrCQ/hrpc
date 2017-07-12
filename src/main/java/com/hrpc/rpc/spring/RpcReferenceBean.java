@@ -1,5 +1,6 @@
 package com.hrpc.rpc.spring;
 
+import com.hrpc.rpc.netty.MessageSendExecutor;
 import lombok.Data;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -12,12 +13,11 @@ import org.springframework.beans.factory.InitializingBean;
 @Data
 public class RpcReferenceBean implements FactoryBean, InitializingBean, DisposableBean{
     private String interfaceName;
-    private String ref;
 
     @Override
     public Object getObject() throws Exception {
 
-        return null;
+        return MessageSendExecutor.getInstance().execute(getObjectType());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class RpcReferenceBean implements FactoryBean, InitializingBean, Disposab
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
+        MessageSendExecutor.getInstance().fetchServieFromRegistryCenter(interfaceName);
     }
 
     @Override

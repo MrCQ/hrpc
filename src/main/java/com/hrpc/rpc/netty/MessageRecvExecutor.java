@@ -16,6 +16,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Data;
 
 import java.nio.channels.spi.SelectorProvider;
+import java.rmi.registry.Registry;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,6 +45,8 @@ public class MessageRecvExecutor {
 
     private ZookeeperServiceRegistry zookeeperServiceRegistry;
 
+    private String registryCenterAddr;
+
     //创建Netty的线程池
     ThreadFactory threadFactory = new RpcThreadFactory("Netty_Thread_Factory");
     EventLoopGroup boss = new NioEventLoopGroup();
@@ -60,6 +63,7 @@ public class MessageRecvExecutor {
     //将注册的service添加进来
     public void registeService2HandlerMap(String key, Object val){
         this.handlerMap.put(key, val);
+        this.register2RegistryCenter(key);
     }
     //将注册的inteceptor添加进来
     public void registerInteceptor2InteceptorMap(String key, ServiceInteceptor val){
@@ -118,17 +122,29 @@ public class MessageRecvExecutor {
     public void stop(){
         this.boss.shutdownGracefully();
         this.worker.shutdownGracefully();
+        this.unregisterAllServices();
     }
 
-    public void register2RegistryCenter(String address){
+    public void register2RegistryCenter(String interfaceName){
         if(zookeeperServiceRegistry == null){
-            zookeeperServiceRegistry = new ZookeeperServiceRegistry(address);
+            zookeeperServiceRegistry = new ZookeeperServiceRegistry(registryCenterAddr);
         }
 
         String providerAddr = ipAddress + ":" + port;
 
-        for(String interfaceName : handlerMap.keySet()){
-            zookeeperServiceRegistry.register(interfaceName + "/" + providerAddr);
+        zookeeperServiceRegistry.register(interfaceName + "/" + providerAddr);
+    }
+
+    public void unregisterService(String interfaceName){
+        if(zookeeperServiceRegistry == null){
+            return;
+        }
+
+        zookeeperServiceRegistry.unRegister(interfaceName);
+    }
+    public void unregisterAllServices(){
+        for(String serviceName : handlerMap.keySet()){
+            unregisterService(serviceName);
         }
     }
 }

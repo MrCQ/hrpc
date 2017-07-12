@@ -33,10 +33,10 @@ public class RpcNamespaceHandler extends NamespaceHandlerSupport {
 
     @Override
     public void init() {
+        registerBeanDefinitionParser("registry", new RpcRegistryBeanParser());
         registerBeanDefinitionParser("service", new RpcServiceBeanParser());
         registerBeanDefinitionParser("inteceptor", new RpcInteceptorBeanParser());
         registerBeanDefinitionParser("reference", new RpcReferenceBeanParser());
-        registerBeanDefinitionParser("registry", new RpcRegistryBeanParser());
         registerBeanDefinitionParser("server", new RpcServerBeanParser());
     }
 }

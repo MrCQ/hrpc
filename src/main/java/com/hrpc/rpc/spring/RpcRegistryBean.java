@@ -1,6 +1,7 @@
 package com.hrpc.rpc.spring;
 
 import com.hrpc.rpc.netty.MessageRecvExecutor;
+import com.hrpc.rpc.netty.MessageSendExecutor;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
 import lombok.Data;
 import org.springframework.beans.factory.DisposableBean;
@@ -19,11 +20,12 @@ public class RpcRegistryBean implements InitializingBean, DisposableBean {
 
     @Override
     public void destroy() throws Exception {
-        MessageRecvExecutor.getInstance().stop();
+
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        MessageRecvExecutor.getInstance().register2RegistryCenter(ipAddress + ":" + port);
+        MessageRecvExecutor.getInstance().setRegistryCenterAddr(ipAddress + ":" + port);
+        MessageSendExecutor.getInstance().setRegistryCenterAddr(ipAddress + ":" + port);
     }
 }

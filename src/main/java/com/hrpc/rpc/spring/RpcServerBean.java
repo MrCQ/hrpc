@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.net.InetAddress;
+
 /**
  * Created by changqi on 2017/7/11.
  */
@@ -17,13 +19,13 @@ public class RpcServerBean implements InitializingBean, DisposableBean {
 
     @Override
     public void destroy() throws Exception {
-
+        MessageRecvExecutor.getInstance().stop();
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         MessageRecvExecutor executor = MessageRecvExecutor.getInstance();
-        executor.setIpAddress("localhost");
+        executor.setIpAddress(InetAddress.getLocalHost().getHostAddress());
         executor.setPort(port);
         executor.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, protocol));
 

@@ -7,6 +7,6 @@ import java.util.Map;
 /**
  * Created by changqi on 2017/7/11.
  */
-public interface NerryRpcSendHandler {
+public interface NettyRpcSendHandler {
     public void handle(Map<String, Object> handlerMap, ChannelPipeline pipeline);
 }
