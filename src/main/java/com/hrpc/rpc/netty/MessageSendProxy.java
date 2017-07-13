@@ -2,6 +2,7 @@ package com.hrpc.rpc.netty;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.hrpc.rpc.model.MessageRequest;
+import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -9,10 +10,14 @@ import java.util.UUID;
 /**
  * Created by changqi on 2017/7/11.
  */
+
+@NoArgsConstructor
 public class MessageSendProxy<T> extends AbstractInvocationHandler {
+    private String interfaceName;
     private String providerAddr;
 
-    public MessageSendProxy(String providerAddr){
+    public MessageSendProxy(String interfaceName, String providerAddr){
+        this.interfaceName = interfaceName;
         this.providerAddr = providerAddr;
     }
 

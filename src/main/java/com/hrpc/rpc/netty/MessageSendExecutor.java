@@ -28,7 +28,7 @@ public class MessageSendExecutor {
     }
 
     public <T> T execute(Class<T> rpcInterface){
-        return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>(remoteHandlers.get(rpcInterface.getName())));
+        return (T) Reflection.newProxy(rpcInterface, new MessageSendProxy<T>(rpcInterface.getName(), remoteHandlers.get(rpcInterface.getName())));
     }
 
     public void fetchServieFromRegistryCenter(String serviceName) throws GlobalException{
