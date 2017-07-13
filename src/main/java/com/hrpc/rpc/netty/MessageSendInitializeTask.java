@@ -1,6 +1,6 @@
 package com.hrpc.rpc.netty;
 
-import com.hrpc.rpc.netty.handler.MessageSendhandler;
+import com.hrpc.rpc.netty.handler.MessageSendHandler;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -15,11 +15,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class MessageSendInitializeTask implements Callable<Boolean> {
     private EventLoopGroup eventLoopGroup;
+    private String interfaceName;
     private String remoteAddr;
     private RpcSerializeProtocol protocol;
 
-    public MessageSendInitializeTask(EventLoopGroup eventLoopGroup, String remoteAddr, RpcSerializeProtocol protocol){
+    public MessageSendInitializeTask(EventLoopGroup eventLoopGroup, String interfaceName, String remoteAddr, RpcSerializeProtocol protocol){
         this.eventLoopGroup = eventLoopGroup;
+        this.interfaceName = interfaceName;
         this.remoteAddr = remoteAddr;
         this.protocol = protocol;
     }
@@ -38,8 +40,8 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
             @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if(channelFuture.isSuccess()){
-                    MessageSendhandler messageSendhandler = channelFuture.channel().pipeline().get(MessageSendhandler.class);
-                    RpcServerLoader.getInstance().getAddr2HandlerMap().put(remoteAddr, messageSendhandler);
+                    MessageSendHandler messageSendhandler = channelFuture.channel().pipeline().get(MessageSendHandler.class);
+                    RpcServerLoader.getInstance().setInterfaceHandler(remoteAddr, messageSendhandler);
                 }
                 else{
                     EventLoop loop = (EventLoop) eventLoopGroup.schedule(new Runnable() {

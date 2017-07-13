@@ -1,7 +1,9 @@
 package com.hrpc.rpc.netty;
 
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.hrpc.rpc.core.MessageCallback;
 import com.hrpc.rpc.model.MessageRequest;
+import com.hrpc.rpc.netty.handler.MessageSendHandler;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Method;
@@ -31,7 +33,8 @@ public class MessageSendProxy<T> extends AbstractInvocationHandler {
         request.setParametersVal(args);
 
         //下面需要利用netty发送远程调用请求
-
-        return null;
+        MessageSendHandler sendHandler = RpcServerLoader.getInstance().getMessageSendHandlerByInterfaceName(request.getClassName());
+        MessageCallback callback = sendHandler.sendRequest(request);
+        return callback.start();
     }
 }
