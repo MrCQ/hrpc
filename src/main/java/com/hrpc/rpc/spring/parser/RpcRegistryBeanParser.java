@@ -32,10 +32,12 @@ public class RpcRegistryBeanParser implements BeanDefinitionParser{
         if(StringUtils.isEmpty(protocol)){
             protocol = ParserConstant.DefaultProtocol;
         }
-
+        builder.setLazyInit(false);
         builder.addPropertyValue(ParserConstant.IpAddress, ipAddress);
         builder.addPropertyValue(ParserConstant.Port, port);
         builder.addPropertyValue(ParserConstant.Protocol, protocol);
+
+        parserContext.getRegistry().registerBeanDefinition("registry", builder.getBeanDefinition());
 
         return builder.getBeanDefinition();
     }

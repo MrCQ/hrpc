@@ -16,9 +16,11 @@ public class RpcServiceBeanParser implements BeanDefinitionParser{
 
         String interfaceName = element.getAttribute(ParserConstant.InterfaceName);
         String ref = element.getAttribute(ParserConstant.Ref);
-
+        builder.setLazyInit(false);
         builder.addPropertyValue(ParserConstant.InterfaceName, interfaceName);
         builder.addPropertyValue(ParserConstant.Ref, ref);
+
+        parserContext.getRegistry().registerBeanDefinition(ref + "_service", builder.getBeanDefinition());
 
         return builder.getBeanDefinition();
     }

@@ -4,6 +4,7 @@ package com.hrpc.rpc.spring.parser;
  * Created by changqi on 2017/7/11.
  */
 public class ParserConstant {
+    public static final String Id = "id";
     public static final String InterfaceName = "interfaceName";
     public static final String Ref = "ref";
     public static final String IpAddress = "ipAddress";

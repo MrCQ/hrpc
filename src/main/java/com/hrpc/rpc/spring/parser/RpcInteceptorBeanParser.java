@@ -20,7 +20,7 @@ public class RpcInteceptorBeanParser implements BeanDefinitionParser {
 
         String interfaceName = element.getAttribute(ParserConstant.InterfaceName);
         String ref = element.getAttribute(ParserConstant.Ref);
-
+        builder.setLazyInit(false);
         builder.addPropertyValue(ParserConstant.InterfaceName, interfaceName);
         builder.addPropertyValue(ParserConstant.Ref, ref);
 

@@ -19,8 +19,11 @@ public class RpcReferenceBeanParser implements BeanDefinitionParser {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(RpcReferenceBean.class);
 
         String interfaceName = element.getAttribute(ParserConstant.InterfaceName);
-
+        String id = element.getAttribute(ParserConstant.Id);
+        builder.setLazyInit(false);
         builder.addPropertyValue(ParserConstant.InterfaceName, interfaceName);
+
+        parserContext.getRegistry().registerBeanDefinition(id, builder.getBeanDefinition());
 
         return builder.getBeanDefinition();
     }

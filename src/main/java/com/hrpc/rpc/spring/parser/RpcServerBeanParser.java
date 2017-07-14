@@ -28,9 +28,11 @@ public class RpcServerBeanParser implements BeanDefinitionParser {
         if(StringUtils.isEmpty(protocol)){
             protocol = ParserConstant.DefaultProtocol;
         }
-
+        builder.setLazyInit(false);
         builder.addPropertyValue(ParserConstant.Port, port);
         builder.addPropertyValue(ParserConstant.Protocol, protocol);
+
+        parserContext.getRegistry().registerBeanDefinition("server", builder.getBeanDefinition());
 
         return builder.getBeanDefinition();
     }

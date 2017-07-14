@@ -7,6 +7,6 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.blackdev.cn/hrpc http://www.blackdev.cn/hrpc/hrpc.xsd ">
 
-    <hrpc:reference interfaceName="com.hrpc.test.service.HelloService" />
+    <hrpc:reference id="helloService" interfaceName="com.hrpc.test.service.HelloService" />
 
 </beans>

@@ -27,7 +27,7 @@ public class RpcServerBean implements InitializingBean, DisposableBean {
         MessageRecvExecutor executor = MessageRecvExecutor.getInstance();
         executor.setIpAddress(InetAddress.getLocalHost().getHostAddress());
         executor.setPort(port);
-        executor.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, protocol));
+        executor.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, "HESSIANSERIALIZE"));
 
         executor.start();
     }

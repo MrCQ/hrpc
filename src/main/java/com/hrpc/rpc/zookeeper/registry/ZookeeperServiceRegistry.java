@@ -49,7 +49,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
     private boolean removeNode(String nodePath){
         String path = ZookeeperConstant.ZKROOT + "/" + nodePath;
 
-        if(!zkClient.exists(path)){
+        if(zkClient.exists(path)){
             if(zkClient.getChildren(path).isEmpty()) {
                 return zkClient.delete(path);
             }
