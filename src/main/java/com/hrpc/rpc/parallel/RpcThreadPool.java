@@ -1,9 +1,7 @@
 package com.hrpc.rpc.parallel;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.UUID;
+import java.util.concurrent.*;
 
 /**
  * Created by changqi on 2017/7/11.
@@ -17,10 +15,11 @@ public class RpcThreadPool {
     }
 
     private static BlockingQueue<Runnable> createBlockingQueue(int queues){
-        return null;
+        return new ArrayBlockingQueue<Runnable>(queues);
     }
 
     private static RejectedExecutionHandler createPolicy(){
-        return null;
+        return new RejectedPolicy();
     }
+
 }

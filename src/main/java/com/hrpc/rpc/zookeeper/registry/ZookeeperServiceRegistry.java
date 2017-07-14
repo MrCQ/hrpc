@@ -41,7 +41,8 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
         String path = ZookeeperConstant.ZKROOT + "/" + nodePath;
 
         if(!zkClient.exists(path)){
-            zkClient.createPersistent(path);
+            //send param : create parents or not.
+            zkClient.createPersistent(path, true);
         }
 
         return true;
@@ -58,6 +59,9 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
             }
         }
 
-        return false;
+        return true;
+    }
+
+    public static void main(String[] args){
     }
 }

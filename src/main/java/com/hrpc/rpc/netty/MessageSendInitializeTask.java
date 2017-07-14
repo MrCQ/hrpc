@@ -32,7 +32,7 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
         bootstrap.group(eventLoopGroup)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.SO_KEEPALIVE, true)
-                .remoteAddress(new InetSocketAddress(remoteAddr.substring(0, remoteAddr.indexOf(":")), Integer.valueOf(remoteAddr.substring(remoteAddr.indexOf(":")))))
+                .remoteAddress(new InetSocketAddress(remoteAddr.substring(0, remoteAddr.indexOf(":")), Integer.valueOf(remoteAddr.substring(remoteAddr.indexOf(":")+1))))
                 .handler(new MessageSendChannelInitializer().buildRpcSearializeProtocol(protocol));
 
         ChannelFuture future = bootstrap.connect();
@@ -44,16 +44,13 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
                     RpcServerLoader.getInstance().setInterfaceHandler(remoteAddr, messageSendhandler);
                 }
                 else{
-                    EventLoop loop = (EventLoop) eventLoopGroup.schedule(new Runnable() {
-                        @Override
-                        public void run() {
+                    eventLoopGroup.schedule(() -> {
                             try {
                                 call();
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                        }
-                    }, 10, TimeUnit.SECONDS);
+                        }, 10, TimeUnit.SECONDS);
                 }
             }
         });

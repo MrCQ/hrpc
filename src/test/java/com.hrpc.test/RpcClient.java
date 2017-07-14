@@ -1,5 +1,6 @@
 package com.hrpc.test;
 
+import com.hrpc.test.service.HelloService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -8,6 +9,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class RpcClient {
     public static void main(String[] args){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:rpc-config-client.xml");
+
+        HelloService service = (HelloService) context.getBean("helloService");
+
+        service.hello();
 
         //test...
 

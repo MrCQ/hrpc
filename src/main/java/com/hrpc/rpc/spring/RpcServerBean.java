@@ -25,7 +25,7 @@ public class RpcServerBean implements InitializingBean, DisposableBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         MessageRecvExecutor executor = MessageRecvExecutor.getInstance();
-        executor.setIpAddress(InetAddress.getLocalHost().getHostAddress());
+        executor.setIpAddress("127.0.0.1");
         executor.setPort(port);
         executor.setSerializeProtocol(Enum.valueOf(RpcSerializeProtocol.class, "HESSIANSERIALIZE"));
 

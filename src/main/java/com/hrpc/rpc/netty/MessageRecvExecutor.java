@@ -110,7 +110,10 @@ public class MessageRecvExecutor {
 
             future.addListener((channelFuture) -> {
                 if(channelFuture.isSuccess()){
-
+                    System.out.println("Netty server has started successfully!");
+                }
+                else{
+                    System.out.println("Netty server failed to start!");
                 }
             });
 

@@ -7,11 +7,11 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.blackdev.cn/hrpc http://www.blackdev.cn/hrpc/hrpc.xsd ">
 
+    <context:property-placeholder location="classpath:rpc-server.properties" />
+
     <hrpc:registry ipAddress="${rpc.server.ipAddress}" port="${rpc.server.port}" />
 
-    <hrpc:server port="2821" />
-
-    <context:property-placeholder location="classpath:rpc-server.properties" />
+    <hrpc:server port="18887" />
 
     <bean id="hello" class="com.hrpc.test.service.impl.HelloServiceImpl" />
 

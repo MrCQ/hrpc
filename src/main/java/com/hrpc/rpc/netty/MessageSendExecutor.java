@@ -3,6 +3,7 @@ package com.hrpc.rpc.netty;
 
 import com.google.common.reflect.Reflection;
 import com.hrpc.rpc.exception.GlobalException;
+import com.hrpc.rpc.serialize.RpcSerializeProtocol;
 import com.hrpc.rpc.zookeeper.discovery.ZookeeperServiceDiscovery;
 import lombok.Data;
 
@@ -40,6 +41,7 @@ public class MessageSendExecutor {
 
         if(serviceProviderInfo != null){
             remoteHandlers.put(serviceName, serviceProviderInfo);
+            RpcServerLoader.getInstance().load(serviceName, serviceProviderInfo, RpcSerializeProtocol.HESSIANSERIALIZE);
         }
         else{
             throw new GlobalException("service not found in registry center");

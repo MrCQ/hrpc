@@ -22,6 +22,7 @@ public class MessageRecvHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("received message : " + msg);
         MessageRequest request = (MessageRequest) msg;
         MessageResponse response = new MessageResponse();
         MessageRecvInitializeTask task = new MessageRecvInitializeTask(handlerMap, request, response);
