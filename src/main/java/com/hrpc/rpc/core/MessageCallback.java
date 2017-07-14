@@ -28,14 +28,13 @@ public class MessageCallback {
             if(this.response != null){
                 return this.response.getResult();
             }
-            else{
-                return null;
-            }
         } catch (Exception e){
             e.printStackTrace();
         } finally {
             lock.unlock();
         }
+
+        return null;
     }
 
     public void over(MessageResponse response){

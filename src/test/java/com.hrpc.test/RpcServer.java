@@ -11,6 +11,6 @@ public class RpcServer {
 
         //test...
 
-        classPathXmlApplicationContext.destroy();
+        //classPathXmlApplicationContext.destroy();
     }
 }
