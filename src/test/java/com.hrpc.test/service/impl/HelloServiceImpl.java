@@ -7,7 +7,7 @@ import com.hrpc.test.service.HelloService;
  */
 public class HelloServiceImpl implements HelloService {
     @Override
-    public void hello() {
-        System.out.println("hello world");
+    public String hello() {
+        return "hello world";
     }
 }

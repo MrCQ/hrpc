@@ -12,7 +12,7 @@ public class RpcClient {
 
         HelloService service = (HelloService) context.getBean("helloService");
 
-        service.hello();
+        System.out.println(service.hello());
 
         //test...
 

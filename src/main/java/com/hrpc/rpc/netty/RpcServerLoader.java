@@ -69,8 +69,9 @@ public class RpcServerLoader {
                 public void onSuccess(Boolean res) {
                     //判断连接以及handler的状态
 
+                    RpcLock lock = lockMap.get(interfaceName);
+
                     try {
-                        RpcLock lock = lockMap.get(interfaceName);
 
                         lock.getLock().lock();
 
@@ -84,6 +85,8 @@ public class RpcServerLoader {
 
                     } catch (Exception e){
                         e.printStackTrace();
+                    } finally {
+                        lock.getLock().unlock();
                     }
                 }
 
