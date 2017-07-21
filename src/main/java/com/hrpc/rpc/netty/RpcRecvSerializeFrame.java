@@ -15,16 +15,11 @@ import java.util.Map;
  * Created by changqi on 2017/7/11.
  */
 public class RpcRecvSerializeFrame implements RpcSerializeFrame{
-    private Map<String, Object> handlerMap = new HashMap<>();
 
     private static ClassToInstanceMap<NettyRpcRecvHandler> handlers = MutableClassToInstanceMap.create();
 
     static {
         handlers.putInstance(HessianRecvHandler.class, new HessianRecvHandler());
-    }
-
-    RpcRecvSerializeFrame(Map<String, Object> map){
-        handlerMap.putAll(map);
     }
 
     @Override
@@ -40,7 +35,7 @@ public class RpcRecvSerializeFrame implements RpcSerializeFrame{
                 ;
                 break;
             case HESSIANSERIALIZE:
-                handlers.getInstance(HessianRecvHandler.class).handle(handlerMap, pipeline);
+                handlers.getInstance(HessianRecvHandler.class).handle(pipeline);
                 break;
         }
     }

@@ -2,6 +2,8 @@ package com.hrpc.test;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.Future;
+
 /**
  * Created by changqi on 2017/7/11.
  */

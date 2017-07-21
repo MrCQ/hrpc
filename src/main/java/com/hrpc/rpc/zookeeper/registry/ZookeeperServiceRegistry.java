@@ -42,6 +42,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
         if(!zkClient.exists(path)){
             //send param : create parents or not.
+            System.out.println("add node : " + path);
             zkClient.createPersistent(path, true);
         }
 

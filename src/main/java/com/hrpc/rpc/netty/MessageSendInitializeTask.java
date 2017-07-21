@@ -41,7 +41,7 @@ public class MessageSendInitializeTask implements Callable<Boolean> {
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if(channelFuture.isSuccess()){
                     MessageSendHandler messageSendhandler = channelFuture.channel().pipeline().get(MessageSendHandler.class);
-                    RpcServerLoader.getInstance().setInterfaceHandler(remoteAddr, messageSendhandler);
+                    RpcServerLoader.getInstance().setInterfaceHandler(interfaceName, messageSendhandler);
                 }
                 else{
                     eventLoopGroup.schedule(() -> {

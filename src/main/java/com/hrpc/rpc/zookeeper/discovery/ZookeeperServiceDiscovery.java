@@ -23,7 +23,7 @@ public class ZookeeperServiceDiscovery {
         if(zkClient.exists(path)){
             List<String> list = zkClient.getChildren(path);
             if(!list.isEmpty()){
-                return list.get(0);
+                return list.get(list.size()-1);
             }
         }
 

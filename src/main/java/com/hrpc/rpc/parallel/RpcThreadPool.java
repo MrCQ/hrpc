@@ -15,11 +15,11 @@ public class RpcThreadPool {
     }
 
     private static BlockingQueue<Runnable> createBlockingQueue(int queues){
-        return new ArrayBlockingQueue<Runnable>(queues);
+        return new LinkedBlockingQueue<>();
     }
 
     private static RejectedExecutionHandler createPolicy(){
-        return new RejectedPolicy();
+        return new AbortPolicy();
     }
 
 }

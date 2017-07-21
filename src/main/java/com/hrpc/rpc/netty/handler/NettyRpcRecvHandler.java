@@ -8,5 +8,5 @@ import java.util.Map;
  * Created by changqi on 2017/7/11.
  */
 public interface NettyRpcRecvHandler {
-    public void handle(Map<String, Object> handlerMap, ChannelPipeline pipeline);
+    public void handle(ChannelPipeline pipeline);
 }

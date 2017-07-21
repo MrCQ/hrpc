@@ -103,14 +103,14 @@ public class MessageRecvExecutor {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
-                    .childHandler(new MessageRecvChannelInitializer(handlerMap).buildRpcSerializeProtocol(serializeProtocol))
+                    .childHandler(new MessageRecvChannelInitializer().buildRpcSerializeProtocol(serializeProtocol))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture future = serverBootstrap.bind(ipAddress, Integer.valueOf(port)).sync();
 
             future.addListener((channelFuture) -> {
                 if(channelFuture.isSuccess()){
-                    System.out.println("Netty server has started successfully!");
+                    System.out.println("Netty server has started successfully! " + ipAddress + " : " + port);
                 }
                 else{
                     System.out.println("Netty server failed to start!");

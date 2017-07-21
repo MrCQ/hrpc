@@ -14,7 +14,9 @@ public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChan
     private RpcSerializeProtocol protocol;
     private RpcRecvSerializeFrame frame = null;
 
-    MessageRecvChannelInitializer(Map<String, Object> handlerMap){ frame = new RpcRecvSerializeFrame(handlerMap); }
+    MessageRecvChannelInitializer(){
+        frame = new RpcRecvSerializeFrame();
+    }
 
     MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol){
         this.protocol = protocol;

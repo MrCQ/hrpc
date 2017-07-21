@@ -14,18 +14,19 @@ import java.util.Map;
  * Created by changqi on 2017/7/11.
  */
 public class MessageRecvHandler extends ChannelInboundHandlerAdapter {
-    private Map<String, Object> handlerMap = new HashMap<>();
-
-    MessageRecvHandler(Map<String, Object> map){
-        handlerMap.putAll(map);
-    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("received message : " + msg);
         MessageRequest request = (MessageRequest) msg;
         MessageResponse response = new MessageResponse();
-        MessageRecvInitializeTask task = new MessageRecvInitializeTask(handlerMap, request, response);
+        MessageRecvInitializeTask task = new MessageRecvInitializeTask(MessageRecvExecutor.getInstance().getHandlerMap(), request, response);
         MessageRecvExecutor.getInstance().submit(task, ctx, request, response);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        super.exceptionCaught(ctx, cause);
+        ctx.close();
     }
 }

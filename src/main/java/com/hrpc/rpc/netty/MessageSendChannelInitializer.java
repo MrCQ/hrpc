@@ -5,12 +5,14 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 
+import java.util.HashMap;
+
 /**
  * Created by changqi on 2017/7/12.
  */
 public class MessageSendChannelInitializer extends ChannelInitializer<SocketChannel> {
     private RpcSerializeProtocol protocol;
-    private RpcSendSerializeFrame sendSerializeFrame;
+    private RpcSendSerializeFrame sendSerializeFrame = new RpcSendSerializeFrame(new HashMap<>());
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
