@@ -1,7 +1,7 @@
 package com.hrpc.rpc.netty;
 
 import com.google.common.util.concurrent.*;
-import com.hrpc.rpc.core.RpcSystemConfig;
+import com.hrpc.rpc.conf.RpcConfig;
 import com.hrpc.rpc.exception.GlobalException;
 import com.hrpc.rpc.netty.handler.MessageSendHandler;
 import com.hrpc.rpc.parallel.RpcThreadPool;
@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by changqi on 2017/7/12.
@@ -25,10 +22,10 @@ import java.util.concurrent.locks.ReentrantLock;
 @NoArgsConstructor
 public class RpcServerLoader {
     private static volatile RpcServerLoader rpcServerLoader = null;
-    private int parallel = RpcSystemConfig.PARALLEL * 2;
+    private int parallel = RpcConfig.PARALLEL * 2;
     private EventLoopGroup eventLoopGroup = new NioEventLoopGroup(parallel);
-    private int threadNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_THREAD_NUMS;
-    private int queueNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS;
+    private int threadNums = RpcConfig.THREAD_NUMS;
+    private int queueNums = RpcConfig.QUEUE_NUMS;
 
     //interfaceName 2 handler map;
     private Map<String, MessageSendHandler> interface2HandlerMap = new ConcurrentHashMap<>();

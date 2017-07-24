@@ -1,6 +1,6 @@
 package com.hrpc.rpc.netty.handler;
 
-import com.hrpc.rpc.core.MessageCallback;
+import com.hrpc.rpc.netty.MessageCallback;
 import com.hrpc.rpc.model.MessageRequest;
 import com.hrpc.rpc.model.MessageResponse;
 import io.netty.buffer.Unpooled;

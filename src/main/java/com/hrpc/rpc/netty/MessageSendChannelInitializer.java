@@ -12,12 +12,12 @@ import java.util.HashMap;
  */
 public class MessageSendChannelInitializer extends ChannelInitializer<SocketChannel> {
     private RpcSerializeProtocol protocol;
-    private RpcSendSerializeFrame sendSerializeFrame = new RpcSendSerializeFrame(new HashMap<>());
+    private RpcSendSerializeAdaptor sendSerializeAdaptor = new RpcSendSerializeAdaptor(new HashMap<>());
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
-        sendSerializeFrame.select(protocol, pipeline);
+        sendSerializeAdaptor.select(protocol, pipeline);
     }
 
     public MessageSendChannelInitializer buildRpcSearializeProtocol(RpcSerializeProtocol protocol){

@@ -1,7 +1,6 @@
 package com.hrpc.rpc.netty;
 
 import com.google.common.reflect.AbstractInvocationHandler;
-import com.hrpc.rpc.core.MessageCallback;
 import com.hrpc.rpc.model.MessageRequest;
 import com.hrpc.rpc.netty.handler.MessageSendHandler;
 import lombok.NoArgsConstructor;

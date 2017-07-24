@@ -5,17 +5,15 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 
-import java.util.Map;
-
 /**
  * Created by changqi on 2017/7/11.
  */
 public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
     private RpcSerializeProtocol protocol;
-    private RpcRecvSerializeFrame frame = null;
+    private RpcRecvSerializeAdaptor adaptor = null;
 
     MessageRecvChannelInitializer(){
-        frame = new RpcRecvSerializeFrame();
+        adaptor = new RpcRecvSerializeAdaptor();
     }
 
     MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol){
@@ -26,6 +24,6 @@ public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChan
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
-        frame.select(protocol, pipeline);
+        adaptor.select(protocol, pipeline);
     }
 }

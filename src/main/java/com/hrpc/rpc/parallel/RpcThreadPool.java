@@ -19,7 +19,7 @@ public class RpcThreadPool {
     }
 
     private static RejectedExecutionHandler createPolicy(){
-        return new AbortPolicy();
+        return new ThreadPoolExecutor.AbortPolicy();
     }
 
 }

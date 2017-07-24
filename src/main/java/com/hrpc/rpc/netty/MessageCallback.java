@@ -1,4 +1,4 @@
-package com.hrpc.rpc.core;
+package com.hrpc.rpc.netty;
 
 
 import com.hrpc.rpc.model.MessageRequest;

@@ -1,7 +1,7 @@
 package com.hrpc.rpc.netty;
 
 import com.google.common.util.concurrent.*;
-import com.hrpc.rpc.core.RpcSystemConfig;
+import com.hrpc.rpc.conf.RpcConfig;
 import com.hrpc.rpc.interceptor.ServiceInteceptor;
 import com.hrpc.rpc.model.MessageRequest;
 import com.hrpc.rpc.model.MessageResponse;
@@ -16,7 +16,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Data;
 
 import java.nio.channels.spi.SelectorProvider;
-import java.rmi.registry.Registry;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,9 +33,9 @@ public class MessageRecvExecutor {
     private String port;
     private RpcSerializeProtocol serializeProtocol = RpcSerializeProtocol.HESSIANSERIALIZE;
 
-    private int parallel = RpcSystemConfig.PARALLEL * 2;
-    private int threadNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_THREAD_NUMS;
-    private int queueNums = RpcSystemConfig.SYSTEM_PROPERTY_THREADPOOL_QUEUE_NUMS;
+    private int parallel = RpcConfig.PARALLEL * 2;
+    private int threadNums = RpcConfig.THREAD_NUMS;
+    private int queueNums = RpcConfig.QUEUE_NUMS;
 
     private Map<String, Object> handlerMap = new ConcurrentHashMap<>();
     private Map<String, ServiceInteceptor> inteceptorMap = new ConcurrentHashMap<>();
