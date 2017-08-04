@@ -1,8 +1,8 @@
 package com.hrpc.rpc.netty.handler;
 
-import com.hrpc.rpc.netty.MessageCallback;
-import com.hrpc.rpc.model.MessageRequest;
-import com.hrpc.rpc.model.MessageResponse;
+import com.hrpc.rpc.netty.MsgCallback;
+import com.hrpc.rpc.model.MsgRequest;
+import com.hrpc.rpc.model.MsgResponse;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by changqi on 2017/7/11.
  */
-public class MessageSendHandler extends ChannelInboundHandlerAdapter {
+public class MsgSendHandler extends ChannelInboundHandlerAdapter {
 
-    private Map<String, MessageCallback> callbackMap = new ConcurrentHashMap<>();
+    private Map<String, MsgCallback> callbackMap = new ConcurrentHashMap<>();
 
     private volatile Channel channel = null;
 
@@ -31,11 +31,10 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         super.channelRead(ctx, msg);
-        MessageResponse response = (MessageResponse) msg;
+        MsgResponse response = (MsgResponse) msg;
         if(callbackMap.containsKey(response.getMessageId())){
-            MessageCallback callback = callbackMap.remove(response.getMessageId());
-
-            callback.over(response);
+            MsgCallback cb = callbackMap.remove(response.getMessageId());
+            cb.finish(response);
         }
     }
 
@@ -43,8 +42,8 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
         this.channel.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
 
-    public MessageCallback sendRequest(MessageRequest request){
-        MessageCallback callback = new MessageCallback(request);
+    public MsgCallback sendRequest(MsgRequest request){
+        MsgCallback callback = new MsgCallback(request);
         callbackMap.put(request.getMessageId(), callback);
         channel.writeAndFlush(request);
         return callback;

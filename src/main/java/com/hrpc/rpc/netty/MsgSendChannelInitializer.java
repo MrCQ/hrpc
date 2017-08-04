@@ -10,9 +10,9 @@ import java.util.HashMap;
 /**
  * Created by changqi on 2017/7/12.
  */
-public class MessageSendChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MsgSendChannelInitializer extends ChannelInitializer<SocketChannel> {
     private RpcSerializeProtocol protocol;
-    private RpcSendSerializeAdaptor sendSerializeAdaptor = new RpcSendSerializeAdaptor(new HashMap<>());
+    private RpcSendSerializeAdaptor sendSerializeAdaptor = new RpcSendSerializeAdaptor();
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -20,7 +20,7 @@ public class MessageSendChannelInitializer extends ChannelInitializer<SocketChan
         sendSerializeAdaptor.select(protocol, pipeline);
     }
 
-    public MessageSendChannelInitializer buildRpcSearializeProtocol(RpcSerializeProtocol protocol){
+    public MsgSendChannelInitializer buildRpcSearializeProtocol(RpcSerializeProtocol protocol){
         this.protocol = protocol;
         return this;
     }

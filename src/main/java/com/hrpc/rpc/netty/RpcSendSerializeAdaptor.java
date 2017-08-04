@@ -7,6 +7,7 @@ import com.hrpc.rpc.netty.handler.NettyRpcSendHandler;
 import com.hrpc.rpc.serialize.RpcSerializeAdaptor;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
 import io.netty.channel.ChannelPipeline;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,16 +15,13 @@ import java.util.Map;
 /**
  * Created by changqi on 2017/7/11.
  */
+
+@NoArgsConstructor
 public class RpcSendSerializeAdaptor implements RpcSerializeAdaptor {
-    private Map<String, Object> handlerMap = new HashMap<>();
     private static ClassToInstanceMap<NettyRpcSendHandler> instanceMap = MutableClassToInstanceMap.create();
 
     static {
         instanceMap.put(HessianSendHandler.class, new HessianSendHandler());
-    }
-
-    public RpcSendSerializeAdaptor(Map<String, Object> map){
-        handlerMap.putAll(map);
     }
 
     @Override
@@ -32,7 +30,7 @@ public class RpcSendSerializeAdaptor implements RpcSerializeAdaptor {
             case PROTOSTUFFSERIALIZE:
                 break;
             case HESSIANSERIALIZE:
-                instanceMap.get(HessianSendHandler.class).handle(handlerMap, pipeline);
+                instanceMap.get(HessianSendHandler.class).handle(pipeline);
                 break;
         }
     }

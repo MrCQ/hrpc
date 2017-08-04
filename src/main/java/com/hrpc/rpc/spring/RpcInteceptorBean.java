@@ -1,7 +1,7 @@
 package com.hrpc.rpc.spring;
 
 import com.hrpc.rpc.interceptor.ServiceInteceptor;
-import com.hrpc.rpc.netty.MessageRecvExecutor;
+import com.hrpc.rpc.netty.MsgRecvExecutor;
 import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +18,6 @@ public class RpcInteceptorBean implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        MessageRecvExecutor.getInstance().registerInteceptor2InteceptorMap(interfaceName, (ServiceInteceptor) applicationContext.getBean(ref));
+        MsgRecvExecutor.getInstance().registerInteceptor2InteceptorMap(interfaceName, (ServiceInteceptor) applicationContext.getBean(ref));
     }
 }

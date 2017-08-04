@@ -12,10 +12,10 @@ import java.util.Map;
  */
 public class HessianSendHandler implements NettyRpcSendHandler{
     @Override
-    public void handle(Map<String, Object> handlerMap, ChannelPipeline pipeline) {
+    public void handle(ChannelPipeline pipeline) {
         HessianCodecUtil util = new HessianCodecUtil();
         pipeline.addLast(new HessianEncoder(util));
         pipeline.addLast(new HessianDecoder(util));
-        pipeline.addLast(new MessageSendHandler());
+        pipeline.addLast(new MsgSendHandler());
     }
 }

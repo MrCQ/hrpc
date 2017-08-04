@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MessageResponse implements Serializable{
+public class MsgResponse implements Serializable{
     private String messageId;
     private String error;
     private Object result;

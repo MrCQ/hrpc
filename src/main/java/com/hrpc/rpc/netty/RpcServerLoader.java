@@ -3,7 +3,7 @@ package com.hrpc.rpc.netty;
 import com.google.common.util.concurrent.*;
 import com.hrpc.rpc.conf.RpcConfig;
 import com.hrpc.rpc.exception.GlobalException;
-import com.hrpc.rpc.netty.handler.MessageSendHandler;
+import com.hrpc.rpc.netty.handler.MsgSendHandler;
 import com.hrpc.rpc.parallel.RpcThreadPool;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
 import io.netty.channel.EventLoopGroup;
@@ -28,7 +28,7 @@ public class RpcServerLoader {
     private int queueNums = RpcConfig.QUEUE_NUMS;
 
     //interfaceName 2 handler map;
-    private Map<String, MessageSendHandler> interface2HandlerMap = new ConcurrentHashMap<>();
+    private Map<String, MsgSendHandler> interface2HandlerMap = new ConcurrentHashMap<>();
     //remoteAddr -> interfaceName map:
     private Map<String, String> remoteAddr2InterfaceMap = new ConcurrentHashMap<>();
 
@@ -59,7 +59,7 @@ public class RpcServerLoader {
 
             lockMap.put(interfaceName, new RpcLock());
 
-            ListenableFuture<Boolean> future = threadPoolExecutor.submit(new MessageSendInitializeTask(eventLoopGroup, interfaceName, serverAddr, protocol));
+            ListenableFuture<Boolean> future = threadPoolExecutor.submit(new MsgSendInitializeTask(eventLoopGroup, interfaceName, serverAddr, protocol));
 
             Futures.addCallback(future, new FutureCallback<Boolean>() {
                 @Override
@@ -99,7 +99,7 @@ public class RpcServerLoader {
         }
     }
 
-    public void setInterfaceHandler(String interfaceName, MessageSendHandler sendHandler){
+    public void setInterfaceHandler(String interfaceName, MsgSendHandler sendHandler){
         RpcLock lock = lockMap.get(interfaceName);
 
         try {
@@ -115,7 +115,7 @@ public class RpcServerLoader {
         }
     }
 
-    public MessageSendHandler getMessageSendHandlerByInterfaceName(String interfaceName){
+    public MsgSendHandler getMessageSendHandlerByInterfaceName(String interfaceName){
         RpcLock lock = lockMap.get(interfaceName);
 
         try {
@@ -137,7 +137,7 @@ public class RpcServerLoader {
     }
 
     public void unload(){
-        for(MessageSendHandler handler : interface2HandlerMap.values()){
+        for(MsgSendHandler handler : interface2HandlerMap.values()){
             handler.close();
         }
         threadPoolExecutor.shutdown();

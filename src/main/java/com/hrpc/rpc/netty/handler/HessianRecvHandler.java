@@ -5,8 +5,6 @@ import com.hrpc.rpc.serialize.hessian.HessianDecoder;
 import com.hrpc.rpc.serialize.hessian.HessianEncoder;
 import io.netty.channel.ChannelPipeline;
 
-import java.util.Map;
-
 /**
  * Created by changqi on 2017/7/11.
  */
@@ -16,6 +14,6 @@ public class HessianRecvHandler implements NettyRpcRecvHandler{
         HessianCodecUtil util = new HessianCodecUtil();
         pipeline.addLast(new HessianEncoder(util));
         pipeline.addLast(new HessianDecoder(util));
-        pipeline.addLast(new MessageRecvHandler());
+        pipeline.addLast(new MsgRecvHandler());
     }
 }

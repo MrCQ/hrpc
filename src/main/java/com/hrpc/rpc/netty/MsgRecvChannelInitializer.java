@@ -8,15 +8,15 @@ import io.netty.channel.socket.SocketChannel;
 /**
  * Created by changqi on 2017/7/11.
  */
-public class MessageRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MsgRecvChannelInitializer extends ChannelInitializer<SocketChannel> {
     private RpcSerializeProtocol protocol;
     private RpcRecvSerializeAdaptor adaptor = null;
 
-    MessageRecvChannelInitializer(){
+    MsgRecvChannelInitializer(){
         adaptor = new RpcRecvSerializeAdaptor();
     }
 
-    MessageRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol){
+    MsgRecvChannelInitializer buildRpcSerializeProtocol(RpcSerializeProtocol protocol){
         this.protocol = protocol;
         return this;
     }

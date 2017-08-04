@@ -1,21 +1,21 @@
 package com.hrpc.rpc.netty;
 
 
-import com.hrpc.rpc.model.MessageRequest;
-import com.hrpc.rpc.model.MessageResponse;
+import com.hrpc.rpc.model.MsgRequest;
+import com.hrpc.rpc.model.MsgResponse;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MessageCallback {
-    private MessageRequest request;
-    private MessageResponse response;
+public class MsgCallback {
+    private MsgRequest request;
+    private MsgResponse response;
 
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
 
-    public MessageCallback(MessageRequest request){
+    public MsgCallback(MsgRequest request){
         this.request = request;
     }
 
@@ -37,7 +37,7 @@ public class MessageCallback {
         return null;
     }
 
-    public void over(MessageResponse response){
+    public void finish(MsgResponse response){
         this.response = response;
 
         try {

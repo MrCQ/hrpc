@@ -1,9 +1,7 @@
 package com.hrpc.rpc.netty;
 
-import com.hrpc.rpc.model.MessageRequest;
-import com.hrpc.rpc.model.MessageResponse;
-import net.sf.cglib.reflect.FastClass;
-import net.sf.cglib.reflect.FastMethod;
+import com.hrpc.rpc.model.MsgRequest;
+import com.hrpc.rpc.model.MsgResponse;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.util.Map;
@@ -12,13 +10,11 @@ import java.util.concurrent.Callable;
 /**
  * Created by changqi on 2017/7/11.
  */
-public class MessageRecvInitializeTask implements Callable<Boolean> {
-    private Map<String, Object> handlerMap;
-    private MessageRequest request;
-    private MessageResponse response;
+public class MsgRecvInitializeTask implements Callable<Boolean> {
+    private MsgRequest request;
+    private MsgResponse response;
 
-    public MessageRecvInitializeTask(Map<String, Object> map, MessageRequest request, MessageResponse response){
-        this.handlerMap = map;
+    public MsgRecvInitializeTask(MsgRequest request, MsgResponse response){
         this.request = request;
         this.response = response;
     }
@@ -27,7 +23,7 @@ public class MessageRecvInitializeTask implements Callable<Boolean> {
     public Boolean call() {
         response.setMessageId(request.getMessageId());
         try {
-            Object res = reflect(request);
+            Object res = invoke(request);
             response.setResult(res);
             return true;
         } catch(Exception e){
@@ -37,9 +33,9 @@ public class MessageRecvInitializeTask implements Callable<Boolean> {
         return false;
     }
 
-    private Object reflect(MessageRequest request) throws Exception{
+    private Object invoke(MsgRequest request) throws Exception{
         String methodName = request.getMethodName();
-        Object bean = handlerMap.get(request.getClassName());
+        Object bean = MsgRecvExecutor.getInstance().getHandlerMap().get(request.getClassName());
         Object[] params = request.getParametersVal();
 
         return MethodUtils.invokeMethod(bean, methodName, params);

@@ -1,8 +1,8 @@
 package com.hrpc.rpc.netty;
 
 import com.google.common.reflect.AbstractInvocationHandler;
-import com.hrpc.rpc.model.MessageRequest;
-import com.hrpc.rpc.netty.handler.MessageSendHandler;
+import com.hrpc.rpc.model.MsgRequest;
+import com.hrpc.rpc.netty.handler.MsgSendHandler;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Method;
@@ -13,18 +13,18 @@ import java.util.UUID;
  */
 
 @NoArgsConstructor
-public class MessageSendProxy<T> extends AbstractInvocationHandler {
+public class MsgSendProxy<T> extends AbstractInvocationHandler {
     private String interfaceName;
     private String providerAddr;
 
-    public MessageSendProxy(String interfaceName, String providerAddr){
+    public MsgSendProxy(String interfaceName, String providerAddr){
         this.interfaceName = interfaceName;
         this.providerAddr = providerAddr;
     }
 
     @Override
     protected Object handleInvocation(Object obj, Method method, Object[] args) throws Throwable {
-        MessageRequest request = new MessageRequest();
+        MsgRequest request = new MsgRequest();
         request.setMessageId(UUID.randomUUID().toString());
         request.setClassName(method.getDeclaringClass().getName());
         request.setMethodName(method.getName());
@@ -32,8 +32,8 @@ public class MessageSendProxy<T> extends AbstractInvocationHandler {
         request.setParametersVal(args);
 
         //下面需要利用netty发送远程调用请求
-        MessageSendHandler sendHandler = RpcServerLoader.getInstance().getMessageSendHandlerByInterfaceName(request.getClassName());
-        MessageCallback callback = sendHandler.sendRequest(request);
+        MsgSendHandler sendHandler = RpcServerLoader.getInstance().getMessageSendHandlerByInterfaceName(request.getClassName());
+        MsgCallback callback = sendHandler.sendRequest(request);
         return callback.start();
     }
 }

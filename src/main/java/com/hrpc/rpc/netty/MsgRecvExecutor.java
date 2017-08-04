@@ -3,8 +3,8 @@ package com.hrpc.rpc.netty;
 import com.google.common.util.concurrent.*;
 import com.hrpc.rpc.conf.RpcConfig;
 import com.hrpc.rpc.interceptor.ServiceInteceptor;
-import com.hrpc.rpc.model.MessageRequest;
-import com.hrpc.rpc.model.MessageResponse;
+import com.hrpc.rpc.model.MsgRequest;
+import com.hrpc.rpc.model.MsgResponse;
 import com.hrpc.rpc.parallel.RpcThreadFactory;
 import com.hrpc.rpc.parallel.RpcThreadPool;
 import com.hrpc.rpc.serialize.RpcSerializeProtocol;
@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 
 @Data
-public class MessageRecvExecutor {
+public class MsgRecvExecutor {
     //当前provider的IP和端口
     private String ipAddress;
     private String port;
@@ -52,10 +52,10 @@ public class MessageRecvExecutor {
     EventLoopGroup worker = new NioEventLoopGroup(parallel, threadFactory, SelectorProvider.provider());
 
     private static class MessageRecvExecutorHolder{
-        static final MessageRecvExecutor executor = new MessageRecvExecutor();
+        static final MsgRecvExecutor executor = new MsgRecvExecutor();
     }
 
-    public static MessageRecvExecutor getInstance(){
+    public static MsgRecvExecutor getInstance(){
         return MessageRecvExecutorHolder.executor;
     }
 
@@ -69,9 +69,9 @@ public class MessageRecvExecutor {
         this.inteceptorMap.put(key, val);
     }
 
-    public void submit(Callable<Boolean> task, final ChannelHandlerContext ctx, final MessageRequest request, final MessageResponse response){
+    public void submit(Callable<Boolean> task, final ChannelHandlerContext ctx, final MsgRequest request, final MsgResponse response){
         if(threadPoolExecutor == null){
-            synchronized (MessageRecvExecutor.class){
+            synchronized (MsgRecvExecutor.class){
                 if(threadPoolExecutor == null){
                     threadPoolExecutor = MoreExecutors.listeningDecorator((ThreadPoolExecutor)RpcThreadPool.getExecutor(threadNums, queueNums));
                 }
@@ -102,7 +102,7 @@ public class MessageRecvExecutor {
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
-                    .childHandler(new MessageRecvChannelInitializer().buildRpcSerializeProtocol(serializeProtocol))
+                    .childHandler(new MsgRecvChannelInitializer().buildRpcSerializeProtocol(serializeProtocol))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture future = serverBootstrap.bind(ipAddress, Integer.valueOf(port)).sync();
