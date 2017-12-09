@@ -22,6 +22,7 @@ public class RpcServiceBeanParser implements BeanDefinitionParser{
 
         parserContext.getRegistry().registerBeanDefinition(ref + "_service", builder.getBeanDefinition());
 
+        //spring bean 默认是单例模式（饿汉），在启动时会自动解析beanDefinition实例化bean
         return builder.getBeanDefinition();
     }
 }
